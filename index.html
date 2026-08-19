@@ -165,7 +165,108 @@
       width: 100%;
       height: 500px;
       background-color: var(--color-blanco);
-      --poster-color: transparent;
+    }
+
+    /* =========================
+       HOTSPOTS & UI MODEL VIEWER
+       ========================= */
+
+    .Hotspot {
+      background: var(--color-violeta);
+      border-radius: 50%;
+      border: 2px solid var(--color-blanco);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      box-sizing: border-box;
+      cursor: pointer;
+      height: 22px;
+      width: 22px;
+      padding: 0;
+      position: relative;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .Hotspot:hover {
+      transform: scale(1.2);
+      background: var(--color-azul);
+    }
+
+    .Hotspot:not([data-visible]) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .HotspotAnnotation {
+      background: var(--color-negro);
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      color: var(--color-blanco);
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      left: calc(100% + 15px);
+      max-width: 200px;
+      padding: 10px 14px;
+      position: absolute;
+      top: 50%;
+      width: max-content;
+      transform: translateY(-50%) translateX(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .Hotspot:hover .HotspotAnnotation,
+    .Hotspot:focus .HotspotAnnotation {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      display: block;
+      width: 33%;
+      height: 6px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      border-radius: 25px;
+      background-color: var(--color-gris);
+      overflow: hidden;
+    }
+
+    .progress-bar.hide {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .update-bar {
+      background-color: var(--color-violeta);
+      width: 0%;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    #ar-prompt {
+      position: absolute;
+      left: 50%;
+      bottom: 75px;
+      animation: notify 2s infinite;
+      display: none;
+    }
+
+    #ar-prompt img {
+      width: 30px;
+    }
+
+    @keyframes notify {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+      100% { transform: translateX(-50%) translateY(0); }
     }
 
     .ar-button {
@@ -191,76 +292,6 @@
       box-shadow:
         0 8px 20px rgba(37, 99, 235, 0.25),
         0 5px 20px rgba(124, 58, 237, 0.20);
-    }
-
-    /* =========================
-       ESTILOS DE HOTSPOTS
-       ========================= */
-
-    .Hotspot {
-      background: var(--color-negro);
-      color: var(--color-blanco);
-      border-radius: 50%;
-      border: 3px solid var(--color-violeta);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      box-sizing: border-box;
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      position: relative;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .Hotspot:hover {
-      transform: scale(1.2);
-      background-color: var(--color-violeta);
-    }
-
-    .Hotspot:not([data-visible]) {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .HotspotAnnotation {
-      background: var(--color-blanco);
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(30, 41, 59, 0.15);
-      color: var(--color-texto);
-      display: block;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      left: calc(100% + 15px);
-      max-width: 220px;
-      padding: 12px 18px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: max-content;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      border-left: 4px solid var(--color-violeta);
-    }
-
-    .Hotspot:hover .HotspotAnnotation {
-      opacity: 1;
-      transform: translateY(-50%) translateX(5px);
-    }
-
-    /* =========================
-       ANIMACIÓN AR PROMPT
-       ========================= */
-    #ar-prompt {
-      position: absolute;
-      left: 50%;
-      bottom: 100px;
-      animation: notify 2s linear infinite;
-    }
-    @keyframes notify {
-      0% {transform: translateX(-50%) scale(1);}
-      50% {transform: translateX(-50%) scale(1.1);}
-      100% {transform: translateX(-50%) scale(1);}
     }
 
     /* =========================
@@ -501,40 +532,32 @@
        ========================= */
 
     @media (max-width: 800px) {
-
       header h1 {
         font-size: 2rem;
       }
-
       main {
         margin: 30px auto;
       }
-
       .producto {
         grid-template-columns: 1fr;
         gap: 30px;
       }
-
       .visor,
       model-viewer {
         min-height: 400px;
         height: 400px;
       }
-
       .informacion h2 {
         font-size: 1.8rem;
       }
-
       .precio-actual {
         font-size: 1.8rem;
       }
-
       .cta {
         width: 100%;
         text-align: center;
         padding: 16px 20px;
       }
-
       .qr-section {
         padding: 25px 18px;
       }
@@ -555,43 +578,51 @@
 
       <div class="visor">
 
-        <!-- Visor con tus coordenadas, archivo y estilos -->
-        <model-viewer
-          src="reebok_shoe_sneaker__free.glb"
+        <model-viewer 
+          src="reebok_shoe_sneaker__free.glb" 
           alt="Modelo tridimensional de los zapatos Reebok Men's Rapid Strike Shoes"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          tone-mapping="neutral"
-          poster="poster.webp"
+          ar 
+          ar-modes="webxr scene-viewer quick-look" 
+          ar-placement="floor"
+          camera-controls 
+          auto-rotate
+          tone-mapping="neutral" 
+          poster="poster.webp" 
           shadow-intensity="1">
 
-          <!-- Hotspot de Textura -->
-          <button class="Hotspot" slot="hotspot-1" data-position="-0.04725283389439294m 7.533402282057531m 3.867743377018586m" data-normal="-0.2416190116818559m 0.1942780450663637m 0.9507240895228622m" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Textura</div>
+          <!-- Hotspot 1 -->
+          <button class="Hotspot" slot="hotspot-1" data-position="-1.86853854365134m 8.68903956254546m 2.1620807819873153m" data-normal="-0.6117801102443249m 0.7005340185823065m 0.3673924135285957m" data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Lengüeta de malla transpirable que optimiza el flujo de aire</div>
+          </button>
+          
+          <!-- Hotspot 2 -->
+          <button class="Hotspot" slot="hotspot-2" data-position="6.302681002482288m 2.2670044690408266m 3.722332557388271m" data-normal="0.1409718281350736m 0.020073021644541732m 0.989810091620768m" data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Entresuela de EVA para una amortiguación ligera. Suela TPR para un agarre confiable</div>
+          </button>
+          
+          <!-- Hotspot 4 -->
+          <button class="Hotspot" slot="hotspot-4" data-position="8.61444633045334m 9.644397372778762m 0.7731034073973845m" data-normal="0.9554679398206686m 0.2938085356068174m 0.027523814768759706m" data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Plantilla open-cell removible que controla la humedad</div>
+          </button>
+          
+          <!-- Hotspot 5 -->
+          <button class="Hotspot" slot="hotspot-5" data-position="-1.384126464453594m 4.774904387962622m -3.466559491225183m" data-normal="0.004410760160002037m 0.31239163652964175m -0.9499431617845054m" data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Estructura y durabilidad, con estilo clásico</div>
           </button>
 
-          <!-- Hotspot de Calidad -->
-          <button class="Hotspot" slot="hotspot-2" data-position="2.605097109973319m 7.324841358323905m 4.0594413794359046m" data-normal="0.02696777016431639m -0.025806600681010674m 0.999303136557499m" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Calidad</div>
-          </button>
-
-          <!-- Barra de progreso oculta -->
+          <!-- Progress Bar -->
           <div class="progress-bar hide" slot="progress-bar">
-            <div class="update-bar"></div>
+              <div class="update-bar"></div>
           </div>
-
-          <!-- Tu botón de AR personalizado -->
-          <button
-            class="ar-button"
-            slot="ar-button"
-            type="button">
+          
+          <!-- AR Button -->
+          <button class="ar-button" slot="ar-button" id="ar-button" type="button">
             Ver en mi espacio
           </button>
-
-          <!-- Ícono animado que indica que se puede girar el modelo -->
+          
+          <!-- AR Prompt -->
           <div id="ar-prompt">
-            <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="Icono girar">
+              <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="Icono de mano indicando interacción">
           </div>
 
         </model-viewer>
@@ -644,7 +675,7 @@
         </p>
 
         <p class="frase">
-          A los viste en tu espacio, ahora ponlos a prueba en el asfalto.
+          Ya los viste en tu espacio, ahora ponlos a prueba en el asfalto.
         </p>
 
         <br>
@@ -691,7 +722,7 @@
 
 
   <script>
-
+    // QR Code
     new QRCode(document.querySelector("#qrCode"), {
       text: window.location.href,
       width: 180,
@@ -699,6 +730,18 @@
       correctLevel: QRCode.CorrectLevel.H
     });
 
+    // Control de la barra de progreso del Model Viewer
+    const modelViewer = document.querySelector('model-viewer');
+    const progress = document.querySelector('.update-bar');
+    const bar = document.querySelector('.progress-bar');
+    
+    modelViewer.addEventListener('progress', (event) => {
+      progress.style.width = `${event.detail.totalProgress * 100}%`;
+    });
+    
+    modelViewer.addEventListener('load', () => {
+      bar.classList.add('hide');
+    });
   </script>
 
 </body>

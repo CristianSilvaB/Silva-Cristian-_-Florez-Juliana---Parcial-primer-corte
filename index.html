@@ -1,0 +1,609 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BogotáFitDeals | Reebok Rapid Strike Shoes en WebAR</title>
+
+  <!-- Onirix WebAR -->
+  <meta
+    name="apple-itunes-app"
+    content="app-id=6470517360, app-argument=https://player.onirix.com/exp/LRm4rp">
+
+  <script src="https://www.onirix.com/webar/ox-devicemotion.min.js"></script>
+
+  <!-- QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --color-fondo: #F8F9FA;
+      --color-blanco: #FFFFFF;
+      --color-texto: #1E293B;
+      --color-negro: #111111;
+      --color-azul: #2563EB;
+      --color-violeta: #7C3AED;
+      --color-violeta-oscuro: #4C1D95;
+      --color-violeta-claro: #A78BFA;
+      --color-gris: #E2E8F0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    header {
+      background: var(--color-negro);
+      color: var(--color-blanco);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 3px solid var(--color-violeta);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      background: var(--color-violeta);
+      border-radius: 50%;
+      right: -90px;
+      top: -140px;
+      opacity: 0.45;
+      filter: blur(35px);
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: var(--color-azul);
+      border-radius: 50%;
+      left: -80px;
+      bottom: -120px;
+      opacity: 0.3;
+      filter: blur(35px);
+    }
+
+    header h1 {
+      position: relative;
+      z-index: 1;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 2.4rem;
+      color: var(--color-blanco);
+    }
+
+    header p {
+      position: relative;
+      z-index: 1;
+      color: var(--color-violeta-claro);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* =========================
+       CONTENIDO PRINCIPAL
+       ========================= */
+
+    main {
+      width: min(1100px, 92%);
+      margin: 45px auto;
+    }
+
+    .producto {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* =========================
+       VISOR ONIRIX
+       ========================= */
+
+    .visor {
+      min-height: 500px;
+      height: 500px;
+      background-color: var(--color-blanco);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid var(--color-violeta);
+      box-shadow:
+        0 15px 40px rgba(30, 41, 59, 0.10),
+        0 0 35px rgba(124, 58, 237, 0.18);
+      position: relative;
+    }
+
+    .visor::before {
+      content: "🔥 DEAL DESTACADO";
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 3;
+      background: var(--color-negro);
+      color: var(--color-blanco);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+    }
+
+    .visor::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: var(--color-violeta);
+      border-radius: 50%;
+      right: -80px;
+      bottom: -90px;
+      opacity: 0.08;
+      filter: blur(25px);
+      pointer-events: none;
+    }
+
+    /*
+      Onirix conserva exactamente el área visual
+      que tenía el model-viewer:
+      100% de ancho x 500px de alto.
+    */
+
+    #visor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      height: 500px;
+      max-width: 100%;
+      border: none;
+      display: block;
+      z-index: 1;
+    }
+
+    /* =========================
+       INFORMACIÓN DEL PRODUCTO
+       ========================= */
+
+    .informacion {
+      position: relative;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      background-color: var(--color-negro);
+      color: var(--color-blanco);
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .informacion h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 2.3rem;
+      margin-bottom: 15px;
+      color: var(--color-texto);
+      line-height: 1.2;
+    }
+
+    .descripcion {
+      font-family: 'Inter', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+      color: var(--color-texto);
+      letter-spacing: normal;
+    }
+
+    .beneficios {
+      margin: 20px 0;
+      padding-left: 22px;
+      color: var(--color-texto);
+    }
+
+    .beneficios li {
+      margin-bottom: 10px;
+    }
+
+    .beneficios li::marker {
+      color: var(--color-violeta);
+    }
+
+    /* =========================
+       PRECIO
+       ========================= */
+
+    .precio-anterior {
+      color: #64748B;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    .precio-actual {
+      color: var(--color-violeta);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    /* =========================
+       CTA
+       ========================= */
+
+    .cta {
+      display: inline-block;
+      background: linear-gradient(
+        135deg,
+        var(--color-azul),
+        var(--color-violeta)
+      );
+      color: var(--color-blanco);
+      padding: 15px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.20),
+        0 8px 20px rgba(124, 58, 237, 0.18);
+    }
+
+    .cta:hover {
+      opacity: 0.92;
+      transform: translateY(-3px);
+      box-shadow:
+        0 12px 25px rgba(37, 99, 235, 0.25),
+        0 12px 25px rgba(124, 58, 237, 0.25);
+    }
+
+    /* =========================
+       FRASE DE MARCA
+       ========================= */
+
+    .frase {
+      margin-top: 25px;
+      padding-left: 15px;
+      border-left: 4px solid var(--color-violeta);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-negro);
+    }
+
+    /* =========================
+       QR
+       ========================= */
+
+    .qr-section {
+      margin-top: 55px;
+      padding: 35px;
+      background-color: var(--color-blanco);
+      border-radius: 22px;
+      text-align: center;
+      border: 1px solid #DDD6FE;
+      box-shadow:
+        0 12px 35px rgba(30, 41, 59, 0.06),
+        0 0 25px rgba(124, 58, 237, 0.07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qr-section::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: var(--color-violeta);
+      border-radius: 50%;
+      right: -80px;
+      top: -100px;
+      opacity: 0.08;
+      filter: blur(20px);
+    }
+
+    .qr-section::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: var(--color-azul);
+      border-radius: 50%;
+      left: -80px;
+      bottom: -100px;
+      opacity: 0.07;
+      filter: blur(20px);
+    }
+
+    .qr-section h2 {
+      position: relative;
+      z-index: 1;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-texto);
+      margin-bottom: 10px;
+    }
+
+    .qr-section p {
+      position: relative;
+      z-index: 1;
+      color: var(--color-texto);
+    }
+
+    #qrCode {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+      background-color: var(--color-blanco);
+      padding: 10px;
+      width: fit-content;
+      border-radius: 10px;
+      border: 2px solid var(--color-negro);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      margin-top: 50px;
+      padding: 30px 20px;
+      background-color: var(--color-negro);
+      color: var(--color-blanco);
+      text-align: center;
+      border-top: 3px solid var(--color-violeta);
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: var(--color-violeta);
+      border-radius: 50%;
+      right: -100px;
+      bottom: -150px;
+      opacity: 0.25;
+      filter: blur(30px);
+    }
+
+    footer p {
+      position: relative;
+      z-index: 1;
+    }
+
+    footer strong {
+      color: var(--color-violeta-claro);
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 800px) {
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      main {
+        margin: 30px auto;
+      }
+
+      .producto {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .visor {
+        min-height: 400px;
+        height: 400px;
+      }
+
+      #visor {
+        width: 100%;
+        height: 400px;
+      }
+
+      .informacion h2 {
+        font-size: 1.8rem;
+      }
+
+      .precio-actual {
+        font-size: 1.8rem;
+      }
+
+      .cta {
+        width: 100%;
+        text-align: center;
+        padding: 16px 20px;
+      }
+
+      .qr-section {
+        padding: 25px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>BOGOTÁFITDEALS</h1>
+    <p>Ofertas deportivas que ponen tu rendimiento a prueba</p>
+  </header>
+
+  <main>
+
+    <section class="producto">
+
+      <!-- =========================
+           VISOR WEBAR ONIRIX
+           ========================= -->
+
+      <div class="visor">
+
+        <iframe
+          id="visor"
+          src="https://player.onirix.com/exp/LRm4rp?&amp;background=alpha&amp;preview=false&amp;hide_controls=false&amp;ar_button=false"
+          allow="web-share;camera;gyroscope;accelerometer;magnetometer;autoplay;fullscreen;xr-spatial-tracking;geolocation;">
+        </iframe>
+
+      </div>
+
+
+      <!-- =========================
+           INFORMACIÓN DEL PRODUCTO
+           ========================= -->
+
+      <div class="informacion">
+
+        <span class="etiqueta">
+          DEAL DESTACADO
+        </span>
+
+        <h2>
+          Reebok Men’s Rapid Strike Shoes
+        </h2>
+
+        <p class="descripcion">
+          ⚡ <strong>Rendimiento 24/7.</strong>
+          Zapatillas deportivas Reebok diseñadas para quienes buscan
+          rendimiento, comodidad y estilo sin pagar de más.
+        </p>
+
+        <ul class="beneficios">
+
+          <li>
+            🛡️ Estructura resistente con el estilo clásico de Reebok.
+          </li>
+
+          <li>
+            🌬️ Malla 100% transpirable para mayor frescura y ligereza.
+          </li>
+
+          <li>
+            💥 Agarre firme y espuma EVA que absorbe cada impacto.
+          </li>
+
+          <li>
+            👟 Plantillas ventiladas para mayor comodidad.
+          </li>
+
+        </ul>
+
+        <p class="precio-anterior">
+          Oferta desde
+        </p>
+
+        <p class="precio-actual">
+          $49.94
+        </p>
+
+        <p class="frase">
+          A los viste en tu espacio, ahora ponlos a prueba en el asfalto.
+        </p>
+
+        <br>
+
+        <a
+          class="cta"
+          href="https://www.amazon.com/dp/B0G5BZKZWX?pd_rd_i=B0G5BZKZWX&amp;pf_rd_p=f1e9beb5-f371-4587-80fb-3d96ad74443b&amp;pf_rd_r=M8X4D4NNEWECVS11EKSQ&amp;pd_rd_wg=8aAhr&amp;pd_rd_w=nkotK&amp;pd_rd_r=f970519f-e19e-414f-a199-38a75ae534d7&amp;th=1&amp;psc=1"
+          target="_blank"
+          rel="noopener noreferrer">
+          ⚡ Llevarme este deal
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QR
+         ========================= -->
+
+    <section class="qr-section">
+
+      <h2>
+        Prueba los Rapid Strike en tu espacio
+      </h2>
+
+      <p>
+        Escanea el código QR para abrir la experiencia y visualizar
+        los zapatos en realidad aumentada desde un dispositivo compatible.
+      </p>
+
+      <div id="qrCode"></div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <p>
+      <strong>BogotáFitDeals</strong>
+      · Ofertas deportivas · Experiencia comercial WebAR
+    </p>
+
+  </footer>
+
+
+  <script>
+    new QRCode(document.querySelector("#qrCode"), {
+      text: window.location.href,
+      width: 180,
+      height: 180,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+
+</body>
+</html>
+```
+

@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -367,11 +368,19 @@
     }
 
     /* =========================
-       CTA
+       CTA GROUP
        ========================= */
+
+    .acciones-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
 
     .cta {
       display: inline-block;
+      text-align: center;
       background: linear-gradient(
         135deg,
         var(--color-azul),
@@ -400,6 +409,24 @@
       box-shadow:
         0 12px 25px rgba(37, 99, 235, 0.25),
         0 12px 25px rgba(124, 58, 237, 0.25);
+    }
+
+    /* Botón secundario para WhatsApp */
+    .cta-whatsapp {
+      background: linear-gradient(
+        135deg,
+        #059669,
+        #10B981
+      );
+      box-shadow:
+        0 8px 20px rgba(5, 150, 105, 0.20),
+        0 8px 20px rgba(16, 185, 129, 0.18);
+    }
+
+    .cta-whatsapp:hover {
+      box-shadow:
+        0 12px 25px rgba(5, 150, 105, 0.25),
+        0 12px 25px rgba(16, 185, 129, 0.25);
     }
 
     /* =========================
@@ -521,6 +548,31 @@
     footer p {
       position: relative;
       z-index: 1;
+      margin-bottom: 12px;
+    }
+
+    /* Enlaces sociales en el footer */
+    .footer-links {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--color-violeta-claro);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-blanco);
+      text-decoration: underline;
     }
 
     footer strong {
@@ -569,7 +621,7 @@
 
   <header>
     <h1>BOGOTÁ FIT DEALS</h1>
-    <p> Ofertas que ponen tu rendimiento a prueba</p>
+    <p>Ofertas que ponen tu rendimiento a prueba</p>
   </header>
 
   <main>
@@ -595,10 +647,10 @@
               <div class="HotspotAnnotation">Lengüeta de malla transpirable que optimiza el flujo de aire</div>
           </button>
           
-          <!-- Hotspot 2 -->
-            </button><button class="Hotspot" slot="hotspot-6" data-position="-10.45620682074144m 1.8450567931145647m 4.622755018530064m" data-normal="0.018682974703040513m 0.5457573737101452m 0.8377349434619821m" data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Entresuela de EVA y Suela TPR para una amortiguación ligera y agarre confiable </div>
-    </button>
+          <!-- Hotspot 6 -->
+          <button class="Hotspot" slot="hotspot-6" data-position="-10.45620682074144m 1.8450567931145647m 4.622755018530064m" data-normal="0.018682974703040513m 0.5457573737101452m 0.8377349434619821m" data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Entresuela de EVA y Suela TPR para una amortiguación ligera y agarre confiable</div>
+          </button>
           
           <!-- Hotspot 4 -->
           <button class="Hotspot" slot="hotspot-4" data-position="8.61444633045334m 9.644397372778762m 0.7731034073973845m" data-normal="0.9554679398206686m 0.2938085356068174m 0.027523814768759706m" data-visibility-attribute="visible">
@@ -641,9 +693,8 @@
         </h2>
 
         <ul class="beneficios">
-            <li>
-            ⚡ Zapatillas  diseñadas para quienes buscan
-          rendimiento, comodidad y estilo
+          <li>
+            ⚡ Zapatillas diseñadas para quienes buscan rendimiento, comodidad y estilo.
           </li>
 
           <li>
@@ -661,10 +712,9 @@
           <li>
             👟 Plantillas ventiladas para mayor comodidad.
           </li>
-
         </ul>
 
-        <p>
+        <p class="precio-anterior">
           Oferta desde
         </p>
 
@@ -672,19 +722,27 @@
           $49.94
         </p>
 
+        <div class="acciones-cta">
+          <a
+            class="cta"
+            href="https://www.amazon.com/dp/B0G5BZKZWX?pd_rd_i=B0G5BZKZWX&amp;pf_rd_p=f1e9beb5-f371-4587-80fb-3d96ad74443b&amp;pf_rd_r=M8X4D4NNEWECVS11EKSQ&amp;pd_rd_wg=8aAhr&amp;pd_rd_w=nkotK&amp;pd_rd_r=f970519f-e19e-414f-a199-38a75ae534d7&amp;th=1&amp;psc=1"
+            target="_blank"
+            rel="noopener noreferrer">
+            ⚡ Llevarme este deal
+          </a>
+
+          <a
+            class="cta cta-whatsapp"
+            href="https://wa.me/573125702843?text=Hola,%20vengo%20de%20Bogot%C3%A1%20Fit%20Deals%20y%20quiero%20recibir%20recomendaciones%20sobre%20otros%20productos."
+            target="_blank"
+            rel="noopener noreferrer">
+            💬 Pedir recomendaciones por WhatsApp
+          </a>
+        </div>
+
         <p class="frase">
           Ya los viste en tu espacio, ahora ponlos a prueba en el asfalto.
         </p>
-
-        <br>
-
-        <a
-          class="cta"
-          href="https://www.amazon.com/dp/B0G5BZKZWX?pd_rd_i=B0G5BZKZWX&amp;pf_rd_p=f1e9beb5-f371-4587-80fb-3d96ad74443b&amp;pf_rd_r=M8X4D4NNEWECVS11EKSQ&amp;pd_rd_wg=8aAhr&amp;pd_rd_w=nkotK&amp;pd_rd_r=f970519f-e19e-414f-a199-38a75ae534d7&amp;th=1&amp;psc=1"
-          target="_blank"
-          rel="noopener noreferrer">
-          ⚡ Llevarme este deal
-        </a>
 
       </div>
 
@@ -716,6 +774,11 @@
       · Ofertas deportivas · Experiencia comercial WebAR
     </p>
 
+    <div class="footer-links">
+      <a href="https://www.instagram.com/bogotafitdeals?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+      <a href="https://wa.me/573125702843?text=Hola,%20vengo%20de%20Bogot%C3%A1%20Fit%20Deals%20y%20quiero%20recibir%20recomendaciones%20sobre%20otros%20productos." target="_blank" rel="noopener noreferrer">💬 WhatsApp (+57 3125702843)</a>
+    </div>
+
   </footer>
 
 
@@ -744,3 +807,5 @@
 
 </body>
 </html>
+
+```

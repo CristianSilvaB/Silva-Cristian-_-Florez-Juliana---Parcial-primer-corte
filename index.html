@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -166,12 +165,6 @@
       filter: blur(25px);
       pointer-events: none;
     }
-
-    /*
-      Onirix conserva exactamente el área visual
-      que tenía el model-viewer:
-      100% de ancho x 500px de alto.
-    */
 
     #visor {
       position: absolute;
@@ -485,10 +478,10 @@
            ========================= -->
 
       <div class="visor">
-
+        <!-- SE CORRIGIÓ LA URL AÑADIENDO embed=true Y ARREGLANDO EL ?& -->
         <iframe
           id="visor"
-          src="https://player.onirix.com/exp/LRm4rp?&amp;background=alpha&amp;preview=false&amp;hide_controls=false&amp;ar_button=false"
+          src="https://player.onirix.com/exp/LRm4rp?embed=true&amp;background=alpha&amp;hide_controls=false&amp;ar_button=false"
           allow="web-share;camera;gyroscope;accelerometer;magnetometer;autoplay;fullscreen;xr-spatial-tracking;geolocation;">
         </iframe>
 
@@ -605,5 +598,3 @@
 
 </body>
 </html>
-```
-

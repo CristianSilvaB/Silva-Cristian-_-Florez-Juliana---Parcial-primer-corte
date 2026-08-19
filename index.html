@@ -6,14 +6,11 @@
 
   <title>BogotáFitDeals | Reebok Rapid Strike Shoes en WebAR</title>
 
-  <!-- Onirix WebAR -->
-  <meta
-    name="apple-itunes-app"
-    content="app-id=6470517360, app-argument=https://player.onirix.com/exp/LRm4rp">
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+  </script>
 
-  <script src="https://www.onirix.com/webar/ox-devicemotion.min.js"></script>
-
-  <!-- QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -118,12 +115,11 @@
     }
 
     /* =========================
-       VISOR ONIRIX
+       VISOR 3D
        ========================= */
 
     .visor {
       min-height: 500px;
-      height: 500px;
       background-color: var(--color-blanco);
       border-radius: 22px;
       overflow: hidden;
@@ -139,7 +135,7 @@
       position: absolute;
       top: 18px;
       left: 18px;
-      z-index: 3;
+      z-index: 2;
       background: var(--color-negro);
       color: var(--color-blanco);
       padding: 8px 14px;
@@ -149,7 +145,6 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-      pointer-events: none;
     }
 
     .visor::after {
@@ -166,18 +161,106 @@
       pointer-events: none;
     }
 
-    #visor {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: auto;
-      bottom: auto;
+    model-viewer {
       width: 100%;
       height: 500px;
-      max-width: 100%;
+      background-color: var(--color-blanco);
+      --poster-color: transparent;
+    }
+
+    .ar-button {
+      position: absolute;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
       border: none;
+      border-radius: 30px;
+      padding: 14px 24px;
+      background: linear-gradient(
+        135deg,
+        var(--color-azul),
+        var(--color-violeta)
+      );
+      color: var(--color-blanco);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25),
+        0 5px 20px rgba(124, 58, 237, 0.20);
+    }
+
+    /* =========================
+       ESTILOS DE HOTSPOTS
+       ========================= */
+
+    .Hotspot {
+      background: var(--color-negro);
+      color: var(--color-blanco);
+      border-radius: 50%;
+      border: 3px solid var(--color-violeta);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      position: relative;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .Hotspot:hover {
+      transform: scale(1.2);
+      background-color: var(--color-violeta);
+    }
+
+    .Hotspot:not([data-visible]) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .HotspotAnnotation {
+      background: var(--color-blanco);
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(30, 41, 59, 0.15);
+      color: var(--color-texto);
       display: block;
-      z-index: 1;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      left: calc(100% + 15px);
+      max-width: 220px;
+      padding: 12px 18px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: max-content;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      border-left: 4px solid var(--color-violeta);
+    }
+
+    .Hotspot:hover .HotspotAnnotation {
+      opacity: 1;
+      transform: translateY(-50%) translateX(5px);
+    }
+
+    /* =========================
+       ANIMACIÓN AR PROMPT
+       ========================= */
+    #ar-prompt {
+      position: absolute;
+      left: 50%;
+      bottom: 100px;
+      animation: notify 2s linear infinite;
+    }
+    @keyframes notify {
+      0% {transform: translateX(-50%) scale(1);}
+      50% {transform: translateX(-50%) scale(1.1);}
+      100% {transform: translateX(-50%) scale(1);}
     }
 
     /* =========================
@@ -241,6 +324,7 @@
     .precio-anterior {
       color: #64748B;
       font-size: 1rem;
+      text-decoration: line-through;
       margin-top: 10px;
     }
 
@@ -431,13 +515,9 @@
         gap: 30px;
       }
 
-      .visor {
+      .visor,
+      model-viewer {
         min-height: 400px;
-        height: 400px;
-      }
-
-      #visor {
-        width: 100%;
         height: 400px;
       }
 
@@ -473,25 +553,51 @@
 
     <section class="producto">
 
-      <!-- =========================
-           VISOR WEBAR ONIRIX
-           ========================= -->
-
       <div class="visor">
 
-        <!-- URL directa con el token incluido y forzado a /3d -->
-        <iframe
-          id="visor"
-          src="https://player.onirix.com/projects/e7318a2a16ff4a56a5032f0cbcca07bf/3d?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjg4MDQyLCJwcm9qZWN0SWQiOjE0ODE0Niwicm9sZSI6MywiaWF0IjoxNzg3MDk1NTYxfQ.uvQQLMydFdxg4WgYfFuOS0kV148ovlyjAvfrg-rTq9g&amp;background=alpha&amp;preview=false&amp;hide_controls=false&amp;ar_button=true"
-          allow="web-share;camera;gyroscope;accelerometer;magnetometer;autoplay;fullscreen;xr-spatial-tracking;geolocation;">
-        </iframe>
+        <!-- Visor con tus coordenadas, archivo y estilos -->
+        <model-viewer
+          src="reebok_shoe_sneaker__free.glb"
+          alt="Modelo tridimensional de los zapatos Reebok Men's Rapid Strike Shoes"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          tone-mapping="neutral"
+          poster="poster.webp"
+          shadow-intensity="1">
+
+          <!-- Hotspot de Textura -->
+          <button class="Hotspot" slot="hotspot-1" data-position="-0.04725283389439294m 7.533402282057531m 3.867743377018586m" data-normal="-0.2416190116818559m 0.1942780450663637m 0.9507240895228622m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Textura</div>
+          </button>
+
+          <!-- Hotspot de Calidad -->
+          <button class="Hotspot" slot="hotspot-2" data-position="2.605097109973319m 7.324841358323905m 4.0594413794359046m" data-normal="0.02696777016431639m -0.025806600681010674m 0.999303136557499m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Calidad</div>
+          </button>
+
+          <!-- Barra de progreso oculta -->
+          <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+          </div>
+
+          <!-- Tu botón de AR personalizado -->
+          <button
+            class="ar-button"
+            slot="ar-button"
+            type="button">
+            Ver en mi espacio
+          </button>
+
+          <!-- Ícono animado que indica que se puede girar el modelo -->
+          <div id="ar-prompt">
+            <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="Icono girar">
+          </div>
+
+        </model-viewer>
 
       </div>
 
-
-      <!-- =========================
-           INFORMACIÓN DEL PRODUCTO
-           ========================= -->
 
       <div class="informacion">
 
@@ -556,10 +662,6 @@
     </section>
 
 
-    <!-- =========================
-         QR
-         ========================= -->
-
     <section class="qr-section">
 
       <h2>
@@ -589,12 +691,14 @@
 
 
   <script>
+
     new QRCode(document.querySelector("#qrCode"), {
       text: window.location.href,
       width: 180,
       height: 180,
       correctLevel: QRCode.CorrectLevel.H
     });
+
   </script>
 
 </body>
